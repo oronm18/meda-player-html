@@ -1,5 +1,47 @@
-<video id="v" playsinline webkit-playsinline muted controls></video>
-<script>
-  const p = new URLSearchParams(location.search);
-  document.getElementById('v').src = p.get('video');
-</script>
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-wrapper {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* 👈 הכי חשוב */
+    }
+  </style>
+</head>
+<body>
+  <div class="video-wrapper">
+    <video
+      id="v"
+      playsinline
+      webkit-playsinline
+      muted
+      controls
+    ></video>
+  </div>
+
+  <script>
+    const p = new URLSearchParams(location.search);
+    document.getElementById('v').src = p.get('video');
+  </script>
+</body>
+</html>
