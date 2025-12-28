@@ -1,0 +1,5 @@
+<video id="v" playsinline webkit-playsinline muted controls></video>
+<script>
+  const p = new URLSearchParams(location.search);
+  document.getElementById('v').src = p.get('video');
+</script>
