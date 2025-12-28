@@ -11,101 +11,52 @@
       height: 100%;
     }
 
-    .wrapper {
+    .video-wrapper {
       width: 100%;
+      max-width: 100%;
       aspect-ratio: 16 / 9;
       background: black;
-      position: relative;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    canvas,
     video {
       width: 100%;
       height: 100%;
       object-fit: contain;
       background: black;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    video {
-      display: none;
-    }
-
-    .play {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: rgba(0,0,0,0.2);
-    }
-
-    .play::before {
-      content: '▶';
-      font-size: 64px;
-      color: white;
-      background: rgba(0,0,0,0.6);
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   </style>
 </head>
 <body>
 
-<div class="wrapper">
-  <canvas id="preview"></canvas>
+  <div class="video-wrapper">
+    <video
+      id="v"
+      playsinline
+      webkit-playsinline
+      muted
+      controls
+      preload="metadata"
+    ></video>
+  </div>
 
-  <video
-    id="video"
-    playsinline
-    webkit-playsinline
-    muted
-    controls
-    preload="auto"
-    crossorigin="anonymous"
-  ></video>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const video = document.getElementById('v');
 
-  <div class="play" id="play"></div>
-</div>
+    const videoUrl = params.get('video');
+    const posterUrl = params.get('poster');
 
-<script>
-  const params = new URLSearchParams(location.search);
-  const videoUrl = params.get('video');
+    if (videoUrl) {
+      video.src = videoUrl;
+    }
 
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('preview');
-  const play = document.getElementById('play');
-  const ctx = canvas.getContext('2d');
-
-  if (!videoUrl) {
-    alert('Missing ?video=');
-    throw new Error('Missing video param');
-  }
-
-  video.src = videoUrl;
-
-  video.addEventListener('loadeddata', () => {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    video.pause();
-  });
-
-  play.onclick = () => {
-    canvas.style.display = 'none';
-    play.style.display = 'none';
-    video.style.display = 'block';
-    video.play();
-  };
-</script>
+    if (posterUrl) {
+      video.poster = posterUrl;
+    }
+  </script>
 
 </body>
 </html>
