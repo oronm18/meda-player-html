@@ -39,6 +39,7 @@
       muted
       controls
       preload="metadata"
+      volume="0"
     ></video>
   </div>
 
@@ -56,6 +57,15 @@
     if (posterUrl) {
       video.poster = posterUrl;
     }
+
+    // Force no sound in all cases
+    video.muted = true;
+    video.volume = 0;
+
+    video.addEventListener('play', () => {
+      video.muted = true;
+      video.volume = 0;
+    });
   </script>
 
 </body>
